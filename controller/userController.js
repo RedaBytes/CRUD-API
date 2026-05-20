@@ -1,4 +1,5 @@
 import userModel from "../model/userModel.js";
+import bcrypt from 'bcrypt'
 export const create = async (req, res) => {
     try {
         const userData = req.body;
@@ -33,11 +34,16 @@ export const fetch = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const id = req.params.id;
-        const userExist = await userModel.findById({ id });
+        const userExist = await userModel.findById(id);
         if (!userExist) {
             return res.status(404).json({ message: "User doesn't exist" });
         }
-        const updatedUser = await userModel.findByIdAndUpdate(id, req.body, { new: true });
+        const updateData = { ...req.body };
+        if (updateData.password) {
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(updateData.password, salt);
+        }
+        const updatedUser = await userModel.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
         res.status(200).json({ message: "User updated successfully", user: updatedUser });
     } catch (error) {
         res.status(500).json({ error: "Something went wrong" });
@@ -46,7 +52,7 @@ export const update = async (req, res) => {
     export const deleteUser = async(req,res)=>{
 
              const id = req.params.id;
-        const userExist = await userModel.findByIdAndDelete({ id });
+        const userExist = await userModel.findByIdAndDelete(id);
         if (!userExist) {
             return res.status(404).json({ message: "User doesn't exist" });
         }
