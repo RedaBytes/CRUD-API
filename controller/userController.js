@@ -33,7 +33,7 @@ export const fetch = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const id = req.params.id;
-        const userExist = await userModel.findOne({ _id: id });
+        const userExist = await userModel.findById({ id });
         if (!userExist) {
             return res.status(404).json({ message: "User doesn't exist" });
         }
@@ -46,10 +46,9 @@ export const update = async (req, res) => {
     export const deleteUser = async(req,res)=>{
 
              const id = req.params.id;
-        const userExist = await userModel.findOne({ _id: id });
+        const userExist = await userModel.findByIdAndDelete({ id });
         if (!userExist) {
             return res.status(404).json({ message: "User doesn't exist" });
         }
-        await userModel.findByIdAndDelete(id);
-        res.status(200).json({ message: "User deleted successfully" });
+        res.status(200).json({message : "deleted successfully",userExist});
     };
