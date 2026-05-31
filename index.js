@@ -7,8 +7,9 @@ dotenv.config();
 const PORT=process.env.PORT || 5000;
 const MONGODB = process.env.MONGODB_URL;
 
+
 mongoose.connect(MONGODB).then(() => {
-    console.log("database connections established")
+    console.log("database connection established")
     app.listen(PORT, () => {
         console.log(`server running on http://localhost:${PORT}`)
     })

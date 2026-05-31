@@ -1,41 +1,42 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt'
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
+import bcrypt from "bcrypt";
+
+const userSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            lowercase: true,
+            trim: true,
+        },
+        password: {
+            type: String,
+            required: true,
+            select: false,
+        },
+        role: {
+            type: String,
+            enum: ["user", "admin"],
+            default: "user",
+        },
     },
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true,
-        select: false
-    },
-    address: {
-        type: String,
-        required: true
-    }
-});
-// Hash password before saving when it's new or modified
-userSchema.pre('save', async function (next) {
-    try {
-        if (!this.isModified('password')) return next();
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        return next();
-    } catch (err) {
-        return next(err);
-    }
+    { timestamps: true }
+);
+
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Remove password field when converting to JSON
-userSchema.set('toJSON', {
-    transform: function (doc, ret) {
-        delete ret.password;
-        return ret;
-    }
-});
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    return bcrypt.compare(candidatePassword, this.password);
+};
+
 export default mongoose.model("User", userSchema);
