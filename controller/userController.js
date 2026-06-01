@@ -41,14 +41,14 @@ export const login = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
-        const { email, password, name, address } = req.body;
+        const { email, password, name } = req.body;
 
         const userExists = await userModel.findOne({ email });
         if (userExists) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        const newUser = new userModel({ email, password, name,  });
+        const newUser = new userModel({ email, password, name });
         const savedUser = await newUser.save();
 
         res.status(201).json(savedUser);
