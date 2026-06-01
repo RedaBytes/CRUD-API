@@ -5,9 +5,6 @@ export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        if (!email || !password) {
-            return res.status(400).json({ message: "Email and password are required" });
-        }
 
         const user = await userModel.findOne({ email }).select("+password");
 
@@ -45,10 +42,6 @@ export const login = async (req, res) => {
 export const create = async (req, res) => {
     try {
         const { email, password, name, address } = req.body;
-
-        if (!email || !password || !name) {
-            return res.status(400).json({ message: "Name, email, and password are required" });
-        }
 
         const userExists = await userModel.findOne({ email });
         if (userExists) {
