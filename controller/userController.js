@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+   
 
 
         const user = await userModel.findOne({ email }).select("+password");
