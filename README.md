@@ -1,4 +1,4 @@
-a boilerpoint for my api
+a boilerpoint for my CRUD api
 A lightweight backend API built with Node.js and Express for managing user data.
 
 -Features
