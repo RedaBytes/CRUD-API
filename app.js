@@ -1,6 +1,6 @@
 import express from 'express';
 import routes from './routes/userRoutes.js';
-import { errorHandler } from './middleware/errorMiddleware.js';
+import { errorHandler } from './middleware/errorHandling.js';
 import { limiter } from './middleware/rateLimiter.js';
 
 const app = express();

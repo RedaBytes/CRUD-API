@@ -3,7 +3,7 @@ import { create, login, fetch, update, deleteUser } from "../controller/userCont
 import { protectRoute } from "../middleware/authMiddleware.js";
 import { validate } from "../middleware/validate.js";
 import { createUserSchema, loginSchema, updateUserSchema } from "../validators/userValidator.js";
-import { limiter } from "../middleware/rateLimiter.js";
+import { limiter, authLimiter } from "../middleware/rateLimiter.js";
 
 const router = express.Router();
 
