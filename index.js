@@ -2,17 +2,15 @@ import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
 import app from "./app.js";
+import connectDB from "./src/config/db.js";
 dotenv.config();
 
 const PORT=process.env.PORT || 5000;
 const MONGODB = process.env.MONGODB_URL;
 
 
-mongoose.connect(MONGODB).then(() => {
-    console.log("database connection established")
+connectDB().then(() => {
     app.listen(PORT, () => {
-        console.log(`server running on http://localhost:${PORT}`)
-    })
-}).catch((error) => {
-    console.log(error);
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
 });
