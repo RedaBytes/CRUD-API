@@ -1,6 +1,6 @@
 # Node.js Express Boilerplate
 
-A production-ready REST API boilerplate built (for my freeelancing journey) with Node.js, Express, and MongoDB. Designed to be cloned and extended for any project(for my freeelancing journey).
+A production-ready REST API boilerplate built (for my freeelancing journey) with Node.js, Express, and MongoDB. Designed to be cloned and extended for any project.
 
 ## Tech Stack
 
